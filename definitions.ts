@@ -17,24 +17,28 @@ export type RoleType =
   | "Procurement Specialist";
 
 export type ContractType =
-  | "part-time"
-  | "full-time"
-  | "remote-part-time"
-  | "remote-full-time";
+  | "Part-time"
+  | "Full-time"
+  | "Remote-part-time"
+  | "Remote-full-time";
 export interface CustomError extends Error {
   status?: number;
   syscall?: string;
   code?: string;
 }
 export interface data {
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt?: Date;
+  updatedAt?: Date;
+  _id?: Types.ObjectId;
 }
 export interface Shop extends data {
   img?: string;
   name: string;
   phoneNumber: string;
-  location?: Geolocation;
+  location?: {
+    type: String;
+    coordinates: Number[];
+  };
   salesPerMon: number;
   founded: Date;
   opensAt: number;
@@ -67,7 +71,7 @@ export interface Worker extends data {
 
   score: number;
   //virtual
-  isContractFinished: Boolean;
+  isContractFinished?: Boolean;
   // many to one relationship to shop
   shopId: Types.ObjectId;
   // one to many relationship to sales
@@ -118,7 +122,7 @@ export interface Sale extends data {
   shopId: Types.ObjectId;
   workerId: Types.ObjectId;
   products: {
-    product: Product;
+    product: Product | Types.ObjectId;
     quantityBought: number;
   }[];
   customerId: Types.ObjectId;

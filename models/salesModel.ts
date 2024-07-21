@@ -1,5 +1,5 @@
 import { model, Schema } from "mongoose";
-import { Sale } from "../definitions";
+import { Product, Sale } from "../definitions";
 
 const saleSchema = new Schema<Sale>(
   {
@@ -47,19 +47,18 @@ const saleSchema = new Schema<Sale>(
 
 saleSchema.virtual("totalPrice").get(function () {
   // Assume profit calculation logic is defined here, for example:
-  return this.products.reduce(
-    (sumPrice, product) =>
-      sumPrice + product.product.buyPrice * product.quantityBought,
-    0,
-  );
+  return this.products.reduce((sumPrice, product) => {
+    const productData = product.product as Product;
+    return sumPrice + productData.buyPrice * product.quantityBought;
+  }, 0);
 });
 saleSchema.virtual("totalSold").get(function () {
   // Assume profit calculation logic is defined here, for example:
-  return this.products.reduce(
-    (sumPrice, product) =>
-      sumPrice + product.product.price * product.quantityBought,
-    0,
-  );
+
+  return this.products.reduce((sumPrice, product) => {
+    const productData = product.product as Product;
+    return sumPrice + productData?.price ?? 1 * product.quantityBought;
+  }, 0);
 });
 
 saleSchema.virtual("profit").get(function () {

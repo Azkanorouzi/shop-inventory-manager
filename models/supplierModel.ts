@@ -16,11 +16,12 @@ const supplierSchema = new Schema<Supplier>(
       type: String,
       required: [true, "Phone number is required"],
       trim: true,
-      validate: {
-        validator: isPhoneNumberValid,
-        message: "Invalid phone number format",
-      },
-      maxlength: [15, "can't be more than 15 characters"],
+      // TODO: Will be uncommented later
+      // validate: {
+      //   validator: isPhoneNumberValid,
+      //   message: "Invalid phone number format",
+      // },
+      maxlength: [40, "can't be more than 40 characters"],
       minlength: [7, "must be at least 7 characters"],
     },
     email: {
@@ -42,10 +43,10 @@ const supplierSchema = new Schema<Supplier>(
     contactPersonaName: {
       type: String,
       trim: true,
-      validate: {
-        validator: isNameInvalid,
-        message: "Contact name was not valid",
-      },
+      // validate: {
+      //   validator: isNameInvalid,
+      //   message: "Contact name was not valid",
+      // },
       maxlength: [255, "Can't be more than 255 characters"],
     },
     description: {
@@ -67,4 +68,4 @@ const supplierSchema = new Schema<Supplier>(
 );
 
 const SupplierModel = model("Supplier", supplierSchema);
-module.exports = SupplierModel;
+export default SupplierModel;

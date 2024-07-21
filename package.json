@@ -3,9 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "ts-node-dev --respawn --transpile-only bin/www"
+    "dev": "ts-node-dev --respawn --transpile-only bin/www",
+    "populateDb": "ts-node-env --respawn --transpile-only ./initdb.ts"
   },
   "dependencies": {
+    "@faker-js/faker": "^8.4.1",
     "@types/express": "^4.17.21",
     "@types/luxon": "^3.4.2",
     "@types/mongoose": "^5.11.96",

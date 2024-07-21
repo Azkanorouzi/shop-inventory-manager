@@ -9,20 +9,15 @@ const shopSchema = new Schema<Shop>(
     name: {
       type: String,
       required: [true, "shop name is required"],
-      unique: true,
       trim: true,
-      maxlength: [30, "Name can't be more than 30 characters"],
-      validate: {
-        validator: isNameInvalid,
-      },
+      maxlength: [60, "Name can't be more than 30 characters"],
     },
     opensAt: {
-      required: true,
       type: Number,
       min: 0,
-      max: [12, "Shops openning time can't be more than 12"],
+      max: [12, "Shops opening time can't be more than 12"],
       validate: {
-        message: "Open time, can't be more than close time",
+        message: "Open time can't be more than close time",
         validator: function (this: Shop, value) {
           return value < this?.closeAt;
         },
@@ -33,7 +28,7 @@ const shopSchema = new Schema<Shop>(
       min: 0,
       max: [24, "Shops closing time can't be more than 24"],
       validate: {
-        message: "Close at time, can't be less than open time",
+        message: "Close at time can't be less than open time",
         validator: function (this: Shop, value) {
           return value > this?.opensAt;
         },
@@ -41,49 +36,45 @@ const shopSchema = new Schema<Shop>(
     },
     phoneNumber: {
       type: String,
-      required: [true, "Phone number is required for shop"],
       trim: true,
-      validate: {
-        validator: isPhoneNumberValid,
+    },
+    location: {
+      type: {
+        type: String,
+        enum: ["Point"],
+        required: true,
+      },
+      coordinates: {
+        type: [Number],
+        required: true,
       },
     },
-    location: Geolocation,
     salesPerMon: {
       type: Number,
-      min: [0, "Sales per month can't be  less than zero"],
+      min: [0, "Sales per month can't be less than zero"],
       default: 0,
     },
     founded: {
       type: Date,
-      default: Date.now(),
+      default: Date.now,
     },
     img: String,
-
     workers: [
       {
         type: Schema.Types.ObjectId,
-        required: [true, "Workers for shop must be defined"],
-        default: [],
-        ref: "Workers",
-        unique: true,
+        ref: "Worker",
       },
     ],
-
     sales: [
       {
         type: Schema.Types.ObjectId,
-        required: [true, "Sales for shop must be defined"],
-        default: [],
-        ref: "Workers",
+        ref: "Sale",
       },
     ],
-
     categories: [
       {
         type: Schema.Types.ObjectId,
-        required: [true, "Categories id is required"],
-        default: [],
-        ref: "Worker",
+        ref: "Category",
       },
     ],
   },
@@ -96,18 +87,15 @@ const shopSchema = new Schema<Shop>(
 
 shopSchema.virtual("isOpen").get(function () {
   const now = DateTime.now().hour;
-  const isOpen = now < this.closeAt;
-  return isOpen;
+  return now < this.closeAt;
 });
 
 shopSchema.virtual("isLucrative").get(function () {
-  const isLucrative = LUCRATIVE_SALES_THRESHOLD < this.salesPerMon;
-
-  return isLucrative;
+  return LUCRATIVE_SALES_THRESHOLD < this.salesPerMon;
 });
 
 shopSchema.virtual("numberOfWorkers").get(function () {
   return this.workers.length;
 });
 
-module.exports = model("Shop", shopSchema);
+export default model("Shop", shopSchema);
