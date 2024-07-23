@@ -1,0 +1,17 @@
+{
+  "watch": [
+    "./views/",
+    "./utils/",
+    "./routes/",
+    "./models/",
+    "./controlers/",
+    "./bin/",
+    "./app.ts",
+    "./definitions.ts"
+  ],
+  "execMap": {
+    "ts": "ts-node"
+  },
+  "exec": "browser-sync start --proxy 'http://localhost:3000' --files 'src/**/*.*' --no-open --no-notify & ts-node src/index.ts",
+  "ext": "ts js json"
+}
