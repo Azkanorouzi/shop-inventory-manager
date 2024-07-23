@@ -10,6 +10,8 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const dotenv = require("dotenv");
 
+// Routes
+import indexRouter from "./routes/indexRoute";
 dotenv.config({ path: "./config.env" });
 
 // const indexRouter = require("./routes/index");
@@ -39,6 +41,8 @@ app.use(express.static(path.join(__dirname, "public")));
 // app.use("/users", usersRouter);
 
 // catch 404 and forward to error handler
+app.use("/", indexRouter);
+
 app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));
 });
@@ -60,4 +64,3 @@ app.use(function (
 });
 
 module.exports = app;
-const a = 

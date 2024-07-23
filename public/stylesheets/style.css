@@ -1,8 +1,25 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+.box {
+    background: lightblue;
+    border: 1px solid blue;
+    min-height: 50px;
+    font-size: 2rem;
 }
-
-a {
-  color: #00B7FF;
+body {
+    max-width: 1800px;
+    position: relative;
+    height: 850px;
+    overflow-y: hidden;
+    background: black;
+}
+.hidder {
+    background: black;
+    width: 160px;
+    height: 80px;
+    bottom: 0px;
+    right: 0;
+    z-index: 100;
+    position: absolute;
+}
+.h-screen {
+    height: 100vh;
 }

@@ -1,21 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="vendor/css/bootstrap-utilities.css" />
+    <link rel="stylesheet" href="stylesheets/style.css" />
 
-    <h1></h1>
-    
-    <h3>
-    </h3>
-     
-     
-    
-    <%= test %>
-    </h1>
-    
-</body>
+    <script
+      type="module"
+      src="https://unpkg.com/@splinetool/viewer@1.9.2/build/spline-viewer.js"
+      defer
+    ></script>
+
+    <script src="vendor/javascript/bootstrap.bundle.min.js" defer></script>
+    <script src="vendor/javascript/app.js" defer></script>
+    <title>Index home</title>
+  </head>
+
+  <body class="bg-black">
+    <main
+      class="container-fluid h-screen position-absolute top-0 bottom-0 z-3 bg-dark"
+    >
+      <div class="alert alert-dark" role="alert">Test</div>
+    </main>
+
+    <spline-viewer
+      url="https://prod.spline.design/Jemy2DdtTKFO8GN7/scene.splinecode"
+    ></spline-viewer>
+
+    <div class="hidder"></div>
+
+
+  </body>
 </html>

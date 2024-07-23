@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only bin/www",
-    "populateDb": "ts-node-env --respawn --transpile-only ./initdb.ts"
+    "populateDb": "ts-node-env --respawn --transpile-only ./initdb.ts",
+    "dev-css": "concurrently \"ts-node-dev --respawn bin/www.ts\" \"browser-sync start --proxy 'http://localhost:3443' --files 'views/*.*' --no-open --no-notify\""
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -15,6 +16,7 @@
     "@types/validator": "^13.12.0",
     "bootstrap": "^5.3.3",
     "browser-sync": "^3.0.2",
+    "concurrently": "^8.2.2",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^16.4.5",
