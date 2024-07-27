@@ -12,10 +12,8 @@ const dotenv = require("dotenv");
 
 // Routes
 import indexRouter from "./routes/indexRoute";
+import statisticsRouter from "./routes/statisticsRoute"
 dotenv.config({ path: "./config.env" });
-
-// const indexRouter = require("./routes/index");
-// const usersRouter = require("./routes/users");
 
 const app = express();
 
@@ -42,6 +40,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // catch 404 and forward to error handler
 app.use("/", indexRouter);
+app.use("/statistics", statisticsRouter)
 
 app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));
@@ -60,7 +59,7 @@ app.use(function (
 
   // render the error page
   res.status(err.status || 500);
-  res.render("error");
+  res.render("ui/error");
 });
 
 module.exports = app;

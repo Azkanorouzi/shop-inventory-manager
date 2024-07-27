@@ -1,0 +1,45 @@
+<section class="d-flex flex-column  gap-3 ">
+    <h1 class="h1 text-center text-black">Statistics</h1>
+    <div class="d-flex flex-column flex-lg-row card-group ">
+    <%- include("../ui/numberCard", {header: statistics.numCategories, description: "Number of categories", linkTo: "/categories" }) %>
+
+    <%- include("../ui/numberCard", {header: statistics.numCustomers, description: "Number of customers", linkTo: "/customers" }) %>
+    <%- include("../ui/numberCard", {header: statistics.numProducts, description: "Number of products", linkTo: "/products" }) %>
+
+    <%- include("../ui/numberCard", {header: statistics.numSales, description: "Number of sales", linkTo: "/sales" }) %>
+</div>
+
+    <div class="d-flex flex-column flex-lg-row card-group">
+    <%- include("../ui/numberCard", {header: statistics.numShops, description: "Number of shops", linkTo: "/shops" }) %>
+
+    <%- include("../ui/numberCard", {header: statistics.numSuppliers, description: "Number of suppliers", linkTo: "/suppliers" }) %>
+    <%- include("../ui/numberCard", {header: statistics.numWorkers, description: "Number of workers", linkTo: "/workers" }) %>
+</div>
+<h2 class="h1 text-center text-black">Top suppliers</h2>
+<div class="card-group flex-column gap-2">
+    <% statistics?.suppliersWithMostProduct?.forEach(supplier => { %>
+        <%- include('../ui/numberCard', {header: supplier?.name, description: supplier?.description, linkTo: `/suppliers/${supplier._id}`}) %>
+    <% }) %>
+</div>
+
+<h2 class="h1 text-center text-black">Top workers</h2>
+<div class="card-group flex-column gap-2">
+    <% statistics?.workersWithMostSales?.forEach(worker => { %>
+        <%- include('../ui/numberCard', {header: `${worker?.personalInfo?.firstName} ${worker?.personalInfo?.lastName}`, description: worker?.role, linkTo: `/workers/${worker._id}`}) %>
+    <% }) %>
+</div>
+
+<h2 class="h1 text-center text-black">Top shops</h2>
+<div class="card-group flex-column gap-2">
+    <% statistics?.mostLucrativeShops?.forEach(shop => { %>
+        <%- include('../ui/numberCard', {header: shop?.name, description: `Sales per month: ${shop?.salesPerMon}`, linkTo: `/shops/${shop._id}`}) %>
+    <% }) %>
+</div>
+
+<h2 class="h1 text-center text-black">Top customers</h2>
+<div class="card-group flex-column gap-2">
+    <% statistics?.customersWithMostTransaction?.forEach(customer => { %>
+        <%- include('../ui/numberCard', {header: customer?.name, description: customer?.email, linkTo: `/customers/${customer._id}`}) %>
+    <% }) %>
+</div>
+</section>

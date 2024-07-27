@@ -1,8 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="images/Business.png" type="image/x-icon">
     <link rel="stylesheet" href="vendor/css/bootstrap.min.css" />
     <link rel="stylesheet" href="vendor/css/bootstrap-utilities.css" />
     <link rel="stylesheet" href="stylesheets/style.css" />
@@ -20,14 +22,17 @@
 
   <body class="bg-black">
     <main
-      class="container-fluid h-screen position-absolute top-0 bottom-0 z-3 bg-dark"
+      class="container-fluid h-screen position-absolute top-0 bottom-0 z-3 d-flex align-items-center overflow-y-scroll flex-column"
+      style="padding-top: 10rem;"
     >
-      <div class="alert alert-dark" role="alert">Test</div>
+    <%- include("../ui/navbar") %>
+    <%- body %> 
     </main>
 
     <spline-viewer
       url="https://prod.spline.design/Jemy2DdtTKFO8GN7/scene.splinecode"
     ></spline-viewer>
+
 
     <div class="hidder"></div>
 

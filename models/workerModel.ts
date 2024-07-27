@@ -106,6 +106,10 @@ workerSchema.virtual("isContractFinished").get(function () {
   return DateTime.now() > DateTime.fromJSDate(this.contract.endContract);
 });
 
+// workerSchema.virtual("fullName").get(function() {
+//   return `${this.personalInfo.firstName} ${this.personalInfo.lastName}`;
+// })
+
 const Worker = model("Worker", workerSchema);
 
 export default Worker;
