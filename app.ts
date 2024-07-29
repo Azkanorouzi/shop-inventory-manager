@@ -12,7 +12,8 @@ const dotenv = require("dotenv");
 
 // Routes
 import indexRouter from "./routes/indexRoute";
-import statisticsRouter from "./routes/statisticsRoute"
+import statisticsRouter from "./routes/statisticsRoute";
+import shopsRouter from "./routes/shopsRoute";
 dotenv.config({ path: "./config.env" });
 
 const app = express();
@@ -40,7 +41,8 @@ app.use(express.static(path.join(__dirname, "public")));
 
 // catch 404 and forward to error handler
 app.use("/", indexRouter);
-app.use("/statistics", statisticsRouter)
+app.use("/statistics", statisticsRouter);
+app.use("/shops", shopsRouter);
 
 app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));

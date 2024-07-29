@@ -23,3 +23,7 @@ body {
 .h-screen {
     height: 100vh;
 }
+
+.shopsContainer .card {
+    min-width: 300px;
+}
