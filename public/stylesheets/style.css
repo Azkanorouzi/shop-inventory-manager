@@ -40,4 +40,11 @@ body {
 }
 .card {
   background: rgba(0, 0, 0, 0.85) !important;
+  backdrop-filter: blur(5px);
+}
+.modal-backdrop {
+  z-index: -1 !important;
+}
+.modal {
+  z-index: 1050 !important;
 }

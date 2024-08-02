@@ -157,3 +157,100 @@ export const createShop = [
     res.redirect("/shops");
   }),
 ];
+
+export const deleteShop = expressAsyncHandler(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  await shopModel.findByIdAndDelete(req?.params?.id);
+  res.redirect("/shops");
+});
+
+export const updateShop = [
+  // Transfomration to geolocation data
+  function (req: Request, res: Response, next: NextFunction) {
+    const { latitude, longitude } = req.body;
+
+    req.body.location = {
+      type: "Point",
+      coordinates: [parseFloat(latitude), parseFloat(longitude)],
+    };
+
+    return next();
+  },
+  body("name", "Name must not be empty")
+    .trim()
+    .isLength({ min: 0, max: 60 })
+    .escape(),
+  body("opensAt").trim().toInt().escape(),
+  body("founded").isISO8601().withMessage("Founded must be a valid iso8601"),
+  body("salesPerMon")
+    .toFloat()
+    .isFloat({ min: 0 })
+    .escape()
+    .withMessage("Sale per month can't be less than zero"),
+  body("closeAt").trim().toInt().escape(),
+  body("categories")
+    .isArray()
+    .custom((categories) =>
+      categories.every((id: string) => Types.ObjectId.isValid(id)),
+    )
+    .withMessage("Categories need to be an array of valid ObjectIds"),
+  body("workers")
+    .isArray()
+    .custom((categories) =>
+      categories.every((id: string) => Types.ObjectId.isValid(id)),
+    )
+    .withMessage("Workers need to be an array of valid ObjectIds"),
+  body("sales")
+    .isArray()
+    .custom((categories) =>
+      categories.every((id: string) => Types.ObjectId.isValid(id)),
+    )
+    .withMessage("Sales need to be an array of valid ObjectIds"),
+  body("opnesAt").custom((value, { req }) => {
+    if (new Date(value) >= new Date(req.body.closesAt)) {
+      throw new Error("opensAt must be earlier than closesAt");
+    }
+    return true;
+  }),
+  body("closeAt").custom((value, { req }) => {
+    if (new Date(value) >= new Date(req.body.opensAt)) {
+      throw new Error("closeAt must be after opensAt");
+    }
+    return true;
+  }),
+
+  expressAsyncHandler(async function (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    await shopModel.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect("/shops");
+  }),
+];
+
+export const getShopUpdate = expressAsyncHandler(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const shop = await shopModel.findById(req?.params?.id);
+
+  const [categories, workers, sales] = await Promise.all([
+    categoryModel.find(),
+    workerModel.find().select(["role", "personalInfo"]),
+    saleModel.find().select(["_id"]),
+  ]);
+
+  res.render("pages/shopUpdate", { item: shop, categories, workers, sales });
+});

@@ -1,4 +1,8 @@
 <section class="flex flex-column gap-3">
+  <div class="d-flex justify-content-center">
+    <%- include("../ui/deleteModal.ejs", {entity: "shops", id: item._id}) %>
+    <%- include("../ui/updateButton.ejs", {entity: "shops", id: item._id}) %>
+  </div>
 <div class="card bg-dark text-white">
 <div class="card-header">
   <h1 class="card-title"><%= item?.name %> (Shop) </h1>

@@ -1,0 +1,90 @@
+<form class="d-flex flex-column gap-2 py-3 pb-5" method="post" id="formD" novalidate>
+  <h1 class="text-black text-center">update shop</h1>
+
+  <div class="form-floating">
+    <input type="text" class="form-control" name="name" id="name" placeholder="shopname" required pattern=".{1,100}" title="Shop name should be between 1 and 100 characters" value=<%= item?.name %>/>
+    <label for="name" class="form-label">Shop name</label>
+  </div>
+
+    <div class="form-floating">
+    <input type="number" class="form-control" id="opensAt" name="opensAt" placeholder="opens at" required min="0" max="12" title="Opens at should be between 0 and 12" value=<%= +item?.opensAt %> />
+    <label for="opensAt" class="form-label">Opens at</label>
+    </div>
+
+    <div class="form-floating">
+    <input type="number" class="form-control" id="closeAt" name="closeAt" placeholder="close at" required min="0" max="23" title="Close at should be between 0 and 23" value=<%= +item?.closeAt %> />
+    <label for="closeAt" class="form-label">Close at</label>
+    </div>
+
+
+    <div class="form-floating">
+    <input type="tel" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="phone number" required pattern="^\d{3}\.\d{3}\.\d{4}$" title="Phone number should be in the format: 123.456.7890"
+value=<%= item?.phoneNumber %>
+    />
+    <label for="phoneNumber" class="form-label">Phone number</label>
+    </div>
+  <div class="d-flex gap-2"> 
+
+    <div class="form-floating">
+         <input type="number" class="form-control" name="longitude" id="longitude" placeholder="longitude" required step="any" title="Enter a valid longitude"
+         value=<%= item?.location?.coordinates[0] %> />
+         <label for="longitude" class="form-label">Longitude</label>
+    </div>
+
+    <div class="form-floating">
+         <input type="number" class="form-control" name="latitude" id="latitude" placeholder="latitude" required step="any" title="Enter a valid latitude" 
+        value=<%= item?.location?.coordinates[1] %> />
+         <label for="latitude" class="form-label">Latitude</label>
+    </div>
+  </div>
+
+  <div class="input-group">
+    <label for="founded" class="input-group-text">Founded: </label>
+    <input type="datetime-local" id="founded" class="form-control " name="founded" required 
+     value="<%= item?.founded.toISOString().slice(0, 16) %>" />
+  </div>
+
+  <div class="input-group">
+    <label for="salePerMonth" class="input-group-text">Sale per month: </label>
+    <input type="number" id="salePerMonth" class="form-control" name="salesPerMon" required min="0" title="Sales per month should be a non-negative number"
+        value=<%= item?.salesPerMon %>
+  >
+  </div>
+
+
+  <!-- category selector  -->
+    <label for="categoriesSelect" class="text-white bg-dark text-white rounded text-center"> categories</label>
+<select class="form-select form-select-sm mb-3" aria-label="Multiple select category" multiple id="categoriesSelect" name="categories">
+   <% categories.forEach(category => {  %>
+   <option value="<%= category._id %>" 
+       <%= item?.categories.includes(category._id.toString()) ? 'selected' : '' %>>
+       <%= category.name %>
+   </option>
+   <% })  %>
+</select>
+
+
+<!-- Workers selector -->
+<label for="workersSelect" class="text-white bg-dark text-white rounded text-center"> Workers </label>
+<select class="form-select form-select-sm mb-3" aria-label="Multiple select category" multiple id="workersSelect" name="workers">
+   <% workers.forEach(worker => { %>
+   <option value="<%= worker._id %>" 
+     <%= item?.workers.includes(worker._id.toString()) ? 'selected' : '' %>>
+     <%= `${worker.personalInfo.firstName} ${worker.personalInfo.lastName} (${worker.role})` %>
+   </option>
+   <% }) %>
+</select>
+
+<!-- Sales selector -->
+<label for="salesSelect" class="text-white bg-dark text-white rounded text-center"> Sales: </label>
+<select class="form-select form-select-sm mb-3" aria-label="Multiple select category" multiple id="salesSelect" name="sales">
+   <% sales.forEach(sale => { %>
+   <option value="<%= sale._id %>" 
+     <%= item?.sales.includes(sale._id.toString()) ? 'selected' : '' %>>
+     <%= sale._id %>
+   </option>
+   <% }) %>
+</select>
+
+  <button class="btn btn-success" id="formSubmit" >Submit</button>
+</form>
