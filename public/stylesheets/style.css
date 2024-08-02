@@ -1,29 +1,43 @@
 .box {
-    background: lightblue;
-    border: 1px solid blue;
-    min-height: 50px;
-    font-size: 2rem;
+  background: lightblue;
+  border: 1px solid blue;
+  min-height: 50px;
+  font-size: 2rem;
 }
 body {
-    max-width: 1800px;
-    position: relative;
-    height: 850px;
-    overflow-y: hidden;
-    background: black;
+  max-width: 1800px;
+  position: relative;
+  height: 850px;
+  overflow-y: hidden;
+  background: black;
 }
 .hidder {
-    background: black;
-    width: 160px;
-    height: 80px;
-    bottom: 0px;
-    right: 0;
-    z-index: 100;
-    position: absolute;
+  background: black;
+  width: 160px;
+  height: 80px;
+  bottom: 0px;
+  right: 0;
+  z-index: 100;
+  position: absolute;
 }
 .h-screen {
-    height: 100vh;
+  height: 100vh;
 }
 
 .shopsContainer .card {
-    min-width: 300px;
+  min-width: 300px;
+}
+.content {
+  opacity: 1;
+  transition: opacity 2s ease;
+}
+
+.content-enter,
+.content-leave-to {
+  opacity: 0;
+
+  transition: opacity 2s ease;
+}
+.card {
+  background: rgba(0, 0, 0, 0.85) !important;
 }

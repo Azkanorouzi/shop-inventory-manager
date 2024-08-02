@@ -1,0 +1,75 @@
+<section class="flex flex-column gap-3">
+<div class="card bg-dark text-white">
+<div class="card-header">
+  <h1 class="card-title"><%= item?.name %> (Shop) </h1>
+</div>
+  <div class="card-body">
+    <div class="flex justify-between gap-5">
+      <p class="text-info">Close at: <%= item.closeAt %></p>
+      <p class="text-info">Opens at: <%= item.opensAt %></p>
+      <p class= <%= item.isOpen ? "text-success" : "text-danger" %>> Currently is <%= item.isOpen ? "open" : "close" %></p>
+    </div>
+    <p>Phone number: <%= item.phoneNumber %></p>
+
+    <div class="flex gap-1">
+      <p>Sales per month: <%= item.salesPerMon %></p>
+
+      <p class= <%= item.isLucrative ? "text-success" : "text-danger" %>> is <%= item.isLucrative ? "(lucrative)" : "(not lucrative)" %></p>
+    </div>
+
+    <div>
+      <p>Has <span class="text-info"> <%= item.numberOfWorkers %> </span> workers</p>
+    </div>
+  </div>
+  <div class="card-footer">
+  <a href="https://www.google.com/maps/@30.4439,62.5667,12z?entry=ttu
+" class="text-info link-success" target="_blank">Location on map</a>
+  </div>
+</div>
+
+  <div class="flex gap-3 justify-content-center">
+
+<div class="card text-bg-dark">
+    <div class="card-header">
+        <strong class="card-title h3">Workers</strong>
+      </div>
+    <div class="card-body p-4">
+
+        <ul class="list-group">
+      <% item.workers.forEach(worker => { %>
+          <li class="list-item"> <a href=<%= `/workers/${worker._id}` %> class="link-info"><%= `${worker.personalInfo.firstName} ${worker.personalInfo.lastName} (${worker.role})` %> </a></li>
+      <% }) %>
+        </ul>
+    </div>
+</div>
+
+<div class="card text-bg-dark">
+    <div class="card-header">
+        <strong class="card-title h3">Categories</strong>
+      </div>
+    <div class="card-body p-4">
+
+        <ul class="list-group">
+      <% item.categories.forEach(category => { %>
+          <li class="list-item"> <a href=<%= `/categories/${category._id}` %> class="link-info"><%= `${category.name}` %> </a></li>
+      <% }) %>
+        </ul>
+    </div>
+</div>
+
+<div class="card text-bg-dark">
+    <div class="card-header">
+        <strong class="card-title h3">Sales</strong>
+      </div>
+    <div class="card-body p-4">
+
+        <ul class="list-group">
+      <% item.sales.forEach(sale => { %>
+          <li class="list-item"><a href=<%= `/sales/${sale._id}` %> class="link-info">
+            sale id</a>
+          </li>
+      <% }) %>
+        </ul>
+    </div>
+</div>
+</section>

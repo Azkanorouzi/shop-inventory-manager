@@ -1,0 +1,4 @@
+
+<a class="btn btn-success" href=<%= `/${entity}?page=${ curPage == 1 ? 1 : curPage - 1 }&limit=${limit}` %>>  &larr; </a>
+<p  style="font-size: 2rem; font-weight: 900;"><%= curPage %> / <%= maxPage %></p>
+<a class="btn btn-success"  href=<%= `/${entity}?page=${ curPage == maxPage ? Number(maxPage) : Number(curPage) + 1 }&limit=${Number(limit) || 6}` %>> &rarr;</a>

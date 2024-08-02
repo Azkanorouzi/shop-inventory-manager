@@ -82,7 +82,7 @@ export default asyncHandler(async function (req, res, next) {
         .exec(),
     ]);
 
-    // Creating an object for 
+    // Creating an object for
     const statistics = {
       numCategories,
       numCustomers,
@@ -98,8 +98,6 @@ export default asyncHandler(async function (req, res, next) {
       mostLucrativeShops,
       customersWithMostTransaction,
     };
-
-    console.log(suppliersWithMostProduct)
 
     res.render("pages/statistics", { statistics });
   } catch (err) {

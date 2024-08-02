@@ -10,7 +10,7 @@ const shopSchema = new Schema<Shop>(
       type: String,
       required: [true, "shop name is required"],
       trim: true,
-      maxlength: [60, "Name can't be more than 30 characters"],
+      maxlength: [60, "Name can't be more than 60 characters"],
     },
     opensAt: {
       type: Number,
@@ -26,7 +26,7 @@ const shopSchema = new Schema<Shop>(
     closeAt: {
       type: Number,
       min: 0,
-      max: [24, "Shops closing time can't be more than 24"],
+      max: [23, "Shops closing time can't be more than 23"],
       validate: {
         message: "Close at time can't be less than open time",
         validator: function (this: Shop, value) {

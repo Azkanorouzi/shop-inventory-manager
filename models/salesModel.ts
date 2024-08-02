@@ -55,7 +55,7 @@ saleSchema.virtual("totalPrice").get(function () {
 saleSchema.virtual("totalSold").get(function () {
   // Assume profit calculation logic is defined here, for example:
 
-  return this.products.reduce((sumPrice, product) => {
+  return this.products?.reduce?.((sumPrice, product) => {
     const productData = product.product as Product;
     return sumPrice + productData?.price ?? 1 * product.quantityBought;
   }, 0);

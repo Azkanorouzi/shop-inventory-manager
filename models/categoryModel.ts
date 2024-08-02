@@ -23,7 +23,7 @@ const categorySchema = new Schema<Category>(
 );
 
 categorySchema.virtual("numProducts").get(function () {
-  return this.products.length;
+  return this?.products?.length;
 });
 
 export default model("Category", categorySchema);

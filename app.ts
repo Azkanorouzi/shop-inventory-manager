@@ -59,9 +59,10 @@ app.use(function (
   res.locals.message = err.message;
   res.locals.error = req.app.get("env") === "development" ? err : {};
 
+  // if (err.status === 404) res.render("pages/p404");
   // render the error page
   res.status(err.status || 500);
-  res.render("ui/error");
+  res.render("pages/error", { status: err.status, message: err.message });
 });
 
 module.exports = app;

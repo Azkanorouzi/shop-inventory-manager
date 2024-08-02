@@ -48,6 +48,7 @@ export interface Shop extends data {
 
   workers: Types.ObjectId[];
   sales: Types.ObjectId[];
+  numberOfWorkers: Number;
 
   // virtual
   isOpen?: boolean;

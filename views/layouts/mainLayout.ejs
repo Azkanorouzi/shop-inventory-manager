@@ -4,10 +4,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="images/Business.png" type="image/x-icon">
-    <link rel="stylesheet" href="vendor/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="vendor/css/bootstrap-utilities.css" />
-    <link rel="stylesheet" href="stylesheets/style.css" />
+    <link rel="shortcut icon" href="/images/Business.png" type="image/x-icon">
+    <link rel="stylesheet" href="/vendor/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/vendor/css/bootstrap-utilities.css" />
+    <link rel="stylesheet" href="/stylesheets/style.css" />
 
     <script
       type="module"
@@ -15,15 +15,16 @@
       defer
     ></script>
 
-    <script src="vendor/javascript/bootstrap.bundle.min.js" defer></script>
-    <script src="vendor/javascript/app.js" defer></script>
+    <script src="/vendor/javascript/bootstrap.bundle.min.js" defer></script>
+    <script src="https://unpkg.com/@barba/core" defer></script>
+    <script src="/vendor/javascript/app.js" defer></script>
     <title>Index home</title>
   </head>
 
-  <body class="bg-black">
+  <body class="bg-black" data-barba="wrapper">
     <main
-      class="container-fluid h-screen position-absolute top-0 bottom-0 z-3 d-flex align-items-center overflow-y-scroll flex-column"
-      style="padding-top: 10rem;"
+      class="container-fluid h-screen position-absolute top-0 bottom-0 z-3 d-flex align-items-center overflow-y-scroll flex-column content"
+      style="padding-top: 10rem;" data-barba="container" data-barb-namespace="home"
     >
     <%- include("../ui/navbar") %>
     <%- body %> 

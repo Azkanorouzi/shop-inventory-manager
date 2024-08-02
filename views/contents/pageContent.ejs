@@ -1,0 +1,26 @@
+
+<%- include("../ui/announcement", {textBold: "NOTE: ", text: `You can edit and delete ${entity} by going into their details page`}) %>
+<section class="d-flex flex-column  gap-1 pb-4 shopsContainer">
+  <h1 class="text-center text-black"><%= `${entity.at(0).toUpperCase()}${entity.slice(1)}` %></h1>
+<div class="d-flex justify-content-center flex-column align-items-center gap-2">
+
+
+<%- include("../ui/addButton", {entity}) %>
+</div>
+
+    <div class="d-flex flex-column flex-lg-row card-group gap-2 flex-wrap justify-content-center" style="transform: scale(.7);">
+    <% items.forEach(function(shop) { %>
+    <%- include("../ui/numberCard", renderer(shop)) %>
+    <% }) %>
+
+    <% if(!items?.length){ %>
+       <h2 class="font-bold h1 bg-danger text-white rounded p-2"> No documents found for this page!</h2>
+    <% } %>
+    
+    </div>
+  <div class="flex justify-content-center align-items-center gap-3">
+
+    <%- include("../ui/paginationButton.ejs", {curPage, maxPage, entity}) %>
+  </div>
+
+</section>

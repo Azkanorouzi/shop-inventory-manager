@@ -19,8 +19,6 @@ export class ResponseTransformer<T extends Document> {
     const queryObject = { ...this.queryString };
     const excludedFields = ["page", "sort", "limit", "fields"];
 
-    console.log(queryObject, "This is the query object");
-
     excludedFields.forEach((el) => delete queryObject["page"]);
 
     let queryStr = JSON.stringify(queryObject);
