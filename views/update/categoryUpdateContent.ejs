@@ -1,11 +1,12 @@
-
 <form class="d-flex flex-column gap-2 py-3 pb-5" method="post" id="formD" novalidate>
-    <input type="text" class="form-control" name="name" id="name" placeholder="category name" required pattern=".{1,100}" title="Product name must be between 1 to 100 length"/>
+  <input type="text" class="form-control" name="name" id="name" placeholder="category name" required pattern=".{1,100}" title="Product name must be between 1 to 100 length" value=<%= item.name %> />
     <label for="name" class="form-label">Product</label>
 
     <select class="form-select form-select-sm mb-3 text-dark" aria-label="Multiple select category" multiple  id="categoriesSelect" name="products">
        <% products.forEach(product=> {  %>
-       <option value="<%= product._id %>"><%= product.productInfo.name %></option>
+       <option value="<%= product._id %>"
+<%= item?.products.includes(product._id.toString()) ? 'selected' : '' %>
+  ><%= product.productInfo.name %></option>
        <% })  %>
     </select>
 

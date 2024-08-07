@@ -11,6 +11,7 @@ const categorySchema = new Schema<Category>(
     products: [
       {
         type: Schema.Types.ObjectId,
+        ref: "Product",
       },
     ],
   },

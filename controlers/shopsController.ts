@@ -159,7 +159,7 @@ export const createShop = [
     }
 
     req.body.categories.map((id: string) => new Types.ObjectId(id));
-    req.body.categories.map((id: string) => new Types.ObjectId(id));
+    req.body.workers.map((id: string) => new Types.ObjectId(id));
     req.body.sales = req.body.sales.map((id: string) => new Types.ObjectId(id));
 
     const shop = new shopModel(req.body);
