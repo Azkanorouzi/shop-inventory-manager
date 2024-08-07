@@ -59,7 +59,13 @@ export const getShopWithId = expressAsyncHandler(async function (
     .populate("workers", "personalInfo role")
     .populate("categories", "name products");
 
-  res.render("pages/pageWithId", { item: shopDetails });
+  // For checking if we have dependency so that we don't show the user the delete button
+  const hasDependencies =
+    Number(shopDetails?.workers?.length) > 0 ||
+    Number(shopDetails?.sales?.length) > 0 ||
+    Number(shopDetails?.categories?.length) > 0;
+
+  res.render("pages/pageWithId", { item: shopDetails, hasDependencies });
 });
 
 export const getShopAdd = expressAsyncHandler(async function (
@@ -77,7 +83,7 @@ export const getShopAdd = expressAsyncHandler(async function (
 });
 
 export const createShop = [
-  // Transfomration to geolocation data
+  // Transfomration to geolocation data, and an empty array if necessary
   function (req: Request, res: Response, next: NextFunction) {
     const { latitude, longitude } = req.body;
 
@@ -85,6 +91,10 @@ export const createShop = [
       type: "Point",
       coordinates: [parseFloat(latitude), parseFloat(longitude)],
     };
+
+    if (!req.body?.workers) req.body.workers = [];
+    if (!req.body?.categories) req.body.categories = [];
+    if (!req.body?.sales) req.body.sales = [];
 
     return next();
   },
@@ -163,6 +173,19 @@ export const deleteShop = expressAsyncHandler(async function (
   res: Response,
   next: NextFunction,
 ) {
+  // We won't allow user to delete items with dependency
+  const shop = await shopModel.findById(req?.params?.id);
+
+  const hasDependencies =
+    Number(shop?.workers?.length) > 0 ||
+    Number(shop?.sales?.length) > 0 ||
+    Number(shop?.categories?.length) > 0;
+
+  if (hasDependencies) {
+    res.redirect("/shops");
+    return;
+  }
+
   await shopModel.findByIdAndDelete(req?.params?.id);
   res.redirect("/shops");
 });

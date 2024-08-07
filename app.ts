@@ -14,6 +14,13 @@ const dotenv = require("dotenv");
 import indexRouter from "./routes/indexRoute";
 import statisticsRouter from "./routes/statisticsRoute";
 import shopsRouter from "./routes/shopsRoute";
+import categoryRouter from "./routes/categoriesRoute";
+import saleRouter from "./routes/salesRoute";
+import productRouter from "./routes/productsRoute";
+import supplierRouter from "./routes/productsRoute";
+import workersRouter from "./routes/workersRoute";
+import customerRouter from "./routes/customersRoute";
+
 dotenv.config({ path: "./config.env" });
 
 const app = express();
@@ -36,13 +43,16 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
-// app.use("/", indexRouter);
-// app.use("/users", usersRouter);
-
 // catch 404 and forward to error handler
 app.use("/", indexRouter);
 app.use("/statistics", statisticsRouter);
 app.use("/shops", shopsRouter);
+app.use("/categories", categoryRouter);
+app.use("/sales", saleRouter);
+app.use("/products", productRouter);
+app.use("/suppliers", supplierRouter);
+app.use("/workers", workersRouter);
+app.use("/customers", customerRouter);
 
 app.use(function (req: Request, res: Response, next: NextFunction) {
   next(createError(404));
