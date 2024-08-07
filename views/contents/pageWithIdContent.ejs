@@ -1,6 +1,10 @@
 <section class="flex flex-column gap-3">
+    <% if(hasDependencies){ %>
+<%- include("../ui/announcement", {textBold: "NOTE: ", text: `To delete this item, first delete it's dependencies`}) %>
+    <%}%>
+
   <div class="d-flex justify-content-center">
-    <%- include("../ui/deleteModal.ejs", {entity: "shops", id: item._id}) %>
+    <%- include("../ui/deleteModal.ejs", {entity: "shops", id: item._id, hasDependencies}) %>
     <%- include("../ui/updateButton.ejs", {entity: "shops", id: item._id}) %>
   </div>
 <div class="card bg-dark text-white">
