@@ -1,5 +1,7 @@
 import express from "express";
-const router = express.Router();
+import { getSales } from "../controlers/salesController";
 
-router.get("/");
+const router = express.Router();
+router.get("/", getSales);
+
 export default router;

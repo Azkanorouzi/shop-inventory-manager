@@ -119,6 +119,7 @@ export interface Sale extends data {
   profit?: number;
   totalPrice?: number;
   totalSold?: number;
+  totalQuantity?: number;
   // Only a few fields must be taken from shopId and workerId
   shopId: Types.ObjectId;
   workerId: Types.ObjectId;

@@ -47,23 +47,31 @@ const saleSchema = new Schema<Sale>(
 
 saleSchema.virtual("totalPrice").get(function () {
   // Assume profit calculation logic is defined here, for example:
-  return this.products.reduce((sumPrice, product) => {
+  return this?.products?.reduce((sumPrice, product) => {
     const productData = product.product as Product;
-    return sumPrice + productData.buyPrice * product.quantityBought;
+    return Math.round(sumPrice + productData.buyPrice * product.quantityBought);
   }, 0);
 });
 saleSchema.virtual("totalSold").get(function () {
   // Assume profit calculation logic is defined here, for example:
 
-  return this.products?.reduce?.((sumPrice, product) => {
+  return this?.products?.reduce?.((sumPrice, product) => {
     const productData = product.product as Product;
-    return sumPrice + productData?.price ?? 1 * product.quantityBought;
+    return Math.round(sumPrice + productData?.price * product.quantityBought);
   }, 0);
+});
+
+// Holds the total quantity of items that are sold
+saleSchema.virtual("totalQuantity").get(function () {
+  return this?.products?.reduce(
+    (sum, product) => sum + product.quantityBought,
+    0,
+  );
 });
 
 saleSchema.virtual("profit").get(function () {
   if (!this?.totalSold || !this?.totalPrice) return 0;
-  return this.totalSold - this.totalPrice;
+  return Math.round(this.totalSold - this.totalPrice);
 });
 
 const SaleModel = model<Sale>("Sale", saleSchema);
