@@ -1,4 +1,5 @@
 import { Types, VirtualType } from "mongoose";
+import { Document, ObjectId } from "mongoose";
 
 export type RoleType =
   | "CEO"
@@ -135,4 +136,8 @@ export interface Customer extends data {
   email: string;
   phoneNumber: string;
   transactions: Types.ObjectId[];
+}
+
+export interface PopulatedSale extends Omit<Sale, "shopId"> {
+  shopId: Shop;
 }

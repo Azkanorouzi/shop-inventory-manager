@@ -1,0 +1,51 @@
+
+<section class="flex flex-column gap-3" >
+    <% if(hasDependencies){ %>
+<%- include("../ui/announcement", {textBold: "NOTE: ", text: `To delete this item, first delete it's dependencies`}) %>
+    <%}%>
+
+  <div class="d-flex justify-content-center">
+    <%- include("../ui/deleteModal.ejs", {entity: "sales", id: item._id, hasDependencies}) %>
+    <%- include("../ui/updateButton.ejs", {entity: "sales", id: item._id}) %>
+  </div>
+
+<div class="card bg-dark text-white">
+<div class="card-header">
+  <h1 class="card-title"><%= `Sale at ${createdAt} in ${item.shopId?.name}` %>  </h1>
+</div>
+  <div class="card-body">
+    <div class="flex justify-between gap-5">
+      <a class="text-info" href=<%= `/workers/${item.workerId._id}` %> >By: <%= `${item.workerId.personalInfo?.firstName} ${item.workerId.personalInfo?.lastName}` %></a>
+      <a class="text-info" href=<%= `/shops/${item.shopId._id}` %> >In shop: <%= item.shopId.name %></a>
+      <p class= <%= item.shopId.isOpen ? "text-success" : "text-danger" %>> Currently is <%= item.shopId.isOpen ? "open" : "close" %></p>
+    </div>
+
+
+    <div>
+      <p>Sold <span class="text-info"> <%= item?.totalQuantity %> </span></p>
+
+      <p>Real price: <span class="text-info"> <%= item?.totalPrice %> </span>  </span></p>
+
+      <p>Sold price: <span class="text-info"> <%= item?.totalSold %> </span>  </span></p>
+
+      <p>Made profit: <span class="text-info"> <%= item?.profit %> </span>  </span></p>
+    </div>
+  </div>
+</div>
+
+
+<!-- Sold products -->
+<div class="card text-bg-dark">
+    <div class="card-header">
+        <strong class="card-title h3">Products Bought</strong>
+      </div>
+    <div class="card-body p-4">
+
+        <ul class="list-group">
+      <% item.products.forEach(product => { %>
+          <li class="list-item"> <a href=<%= `/workers/${product.product._id}` %> class="link-info"><%= `${product.product.productInfo.name} (${product.quantityBought} items bought) product price (${product.product.price.toFixed(2)})` %> </a></li>
+      <% }) %>
+        </ul>
+    </div>
+</div>
+</section>

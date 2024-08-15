@@ -1,6 +1,5 @@
 import { Schema, model } from "mongoose";
 import { Shop } from "../definitions";
-import { isNameInvalid, isPhoneNumberValid } from "../utils/customValidators";
 import { DateTime } from "luxon";
 import { LUCRATIVE_SALES_THRESHOLD } from "../utils/configs";
 
