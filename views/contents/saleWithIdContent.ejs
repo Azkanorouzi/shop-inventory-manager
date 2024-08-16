@@ -12,6 +12,8 @@
 <div class="card bg-dark text-white">
 <div class="card-header">
   <h1 class="card-title"><%= `Sale at ${createdAt} in ${item.shopId?.name}` %>  </h1>
+
+  <a class="h3" href=<%= item.customerId._id %> ><%= `By customer ${item.customerId.name} (${item.customerId?.phoneNumber})` %>  </a>
 </div>
   <div class="card-body">
     <div class="flex justify-between gap-5">

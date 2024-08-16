@@ -8,23 +8,109 @@ import { DateTime } from "luxon";
 import productModel from "../models/productModel";
 import workerModel from "../models/workerModel";
 import shopModel from "../models/shopModel";
+import customerModel from "../models/customerModel";
+import { body, validationResult } from "express-validator";
+import { Types } from "mongoose";
 
-export const getAddSale = expressAsyncHandler(async function(req: Request, res: Response, next: NextFunction) {
-  const [products, workers, shops] = await Promise.all([
+export const getAddSale = expressAsyncHandler(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const [products, workers, shops, customers] = await Promise.all([
     productModel.find().select("productInfo"),
     workerModel.find().select(["role", "personalInfo"]),
     shopModel.find().select(["name", "_id"]),
+    customerModel.find().select(["name", "phoneNumber"]),
   ]);
 
-  res.render("pages/saleAdd", { products, workers, shops});
-})
+  res.render("pages/saleAdd", { products, workers, shops, customers });
+});
 
-export const deleteSale = expressAsyncHandler(async function(req: Request, res: Response, next: NextFunction) {
-  await SaleModel.findByIdAndDelete(req?.params?.id)
+export const addSale = [
+  // Transforms req.products to a proper format
+  function (req: Request, res: Response, next: NextFunction) {
+    // Checking if products is undefined
+    if (req.body?.products === undefined) {
+      req.body.products = [];
+      // Checking for the type of products
+      return next();
+    } else if (typeof req.body?.products === "string") {
+      req.body.products = [
+        JSON.stringify({
+          quantityBought: 1,
+          product: req.body.products,
+          productPrice: 1,
+        }),
+      ];
+      return next();
+    }
 
-  res.redirect("/sales")
-})
+    req.body.products = req.body.products.map((product: string) => {
+      return JSON.stringify({
+        productPrice: 1,
+        product: product,
+        quantityBought: 1,
+      });
+    });
+    next();
+  },
 
+  body("products")
+    .isArray()
+    .escape()
+    .withMessage("Products need to be an array"),
+  body("workerId")
+    .custom((id) => Types.ObjectId.isValid(id))
+    .escape()
+    .withMessage("worker needs to be a valid id"),
+  body("shopId")
+    .custom((id) => Types.ObjectId.isValid(id))
+    .escape()
+    .withMessage("shop needs to be a valid id"),
+  body("customerId")
+    .custom((id) => Types.ObjectId.isValid(id))
+    .escape()
+    .withMessage("customer needs to be a valid id"),
+
+  expressAsyncHandler(async function (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    req.body.products = req.body.products.map((product: string) => {
+      const updatedProduct = product.replaceAll(/&quot;/gi, '"');
+
+      console.log(updatedProduct);
+
+      return JSON.parse(updatedProduct);
+    });
+
+    console.log(req.body);
+
+    const sale = new SaleModel(req.body);
+
+    await sale.save();
+    res.redirect("/sales");
+  }),
+];
+
+export const deleteSale = expressAsyncHandler(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  await SaleModel.findByIdAndDelete(req?.params?.id);
+
+  res.redirect("/sales");
+});
 
 export const getSaleWithId = expressAsyncHandler(async function (
   req: Request,
@@ -35,15 +121,19 @@ export const getSaleWithId = expressAsyncHandler(async function (
   const saleDetails = await SaleModel.findById(req.params.id)
     .populate("products.product", "productInfo price buyPrice")
     .populate("workerId", "role personalInfo.firstName personalInfo.lastName")
-    .populate("shopId", "name opensAt closeAt");
+    .populate("shopId", "name opensAt closeAt")
+    .populate("customerId", "name phoneNumber email");
 
+  const formattedDate = DateTime.fromJSDate(
+    saleDetails?.createdAt || new Date(),
+  ).toISODate();
 
-  const formattedDate = DateTime.fromJSDate(saleDetails?.createdAt || new Date()).toISODate()
-
-
-  res.render("pages/saleWithId", { item: saleDetails, hasDependencies: false, createdAt: formattedDate});
+  res.render("pages/saleWithId", {
+    item: saleDetails,
+    hasDependencies: false,
+    createdAt: formattedDate,
+  });
 });
-
 
 export const getSales = expressAsyncHandler(async function (
   req: Request,
@@ -82,3 +172,89 @@ export const getSales = expressAsyncHandler(async function (
     },
   });
 });
+
+export const getSaleUpdate = expressAsyncHandler(async function (
+  req: Request,
+  res: Response,
+  next: NextFunction,
+) {
+  const sale = await SaleModel.findById(req?.params?.id);
+
+  const [products, workers, shops, customers] = await Promise.all([
+    productModel.find().select("productInfo"),
+    workerModel.find().select(["role", "personalInfo"]),
+    shopModel.find().select(["name", "_id"]),
+    customerModel.find().select(["name", "phoneNumber"]),
+  ]);
+
+  res.render("pages/saleUpdate", {
+    item: sale,
+    customers,
+    workers,
+    shops,
+    products,
+  });
+});
+
+export const updateSale = [
+  // Transforms req.products to a proper format
+  function (req: Request, res: Response, next: NextFunction) {
+    // Checking if products is undefined
+    if (req.body?.products === undefined) {
+      req.body.products = [];
+      // Checking for the type of products
+      return next();
+    } else if (typeof req.body?.products === "string") {
+      req.body.products = [
+        JSON.stringify({
+          quantityBought: 1,
+          product: req.body.products,
+          productPrice: 1,
+        }),
+      ];
+      return next();
+    }
+
+    req.body.products = req.body.products.map((product: string) => {
+      return JSON.stringify({
+        productPrice: 1,
+        product: product,
+        quantityBought: 1,
+      });
+    });
+    next();
+  },
+
+  body("products")
+    .isArray()
+    .escape()
+    .withMessage("Products need to be an array"),
+  body("workerId")
+    .custom((id) => Types.ObjectId.isValid(id))
+    .escape()
+    .withMessage("worker needs to be a valid id"),
+  body("shopId")
+    .custom((id) => Types.ObjectId.isValid(id))
+    .escape()
+    .withMessage("shop needs to be a valid id"),
+  body("customerId")
+    .custom((id) => Types.ObjectId.isValid(id))
+    .escape()
+    .withMessage("customer needs to be a valid id"),
+
+  expressAsyncHandler(async function (
+    req: Request,
+    res: Response,
+    next: NextFunction,
+  ) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      res.status(400).json({ errors: errors.array() });
+      return;
+    }
+
+    await SaleModel.findByIdAndUpdate(req.params.id, req.body);
+    res.redirect(`/sales/${req.params.id}`);
+  }),
+];

@@ -13,6 +13,7 @@ const saleSchema = new Schema<Sale>(
       ref: "Worker",
       required: [true, "Worker ID is required"],
     },
+
     products: [
       {
         product: {
@@ -34,7 +35,7 @@ const saleSchema = new Schema<Sale>(
     ],
     customerId: {
       type: Schema.Types.ObjectId,
-      ref: "Customer",
+      ref: "customer",
       required: [true, "Customer ID is required"],
     },
   },

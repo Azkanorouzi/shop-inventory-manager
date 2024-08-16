@@ -5,7 +5,9 @@
     <label for="shopSelect" class="text-white bg-dark text-white rounded text-center"> Sold at shop: </label>
     <select class="form-select form-select-sm mb-3" aria-label="Multiple select shops" id="shopSelect" name="shopId">
        <% shops.forEach(shop => {  %>
-       <option value="<%= shop._id %>"><%= shop.name %></option>
+       <option value="<%= shop._id %>"
+       <%= item.shopId == shop._id.toString() ? 'selected' : '' %>
+    ><%= shop.name %></option>
        <% })  %>
     </select>
 
@@ -13,7 +15,9 @@
     <label for="workerSelect" class="text-white bg-dark text-white rounded text-center"> Workers who sold the item: </label>
     <select class="form-select form-select-sm mb-3" aria-label="Multiple select shops" id="workerSelect" name="workerId">
        <% workers.forEach(worker=> {  %>
-       <option value="<%= worker._id %>"><%= worker.personalInfo.firstName + " " + worker.personalInfo.lastName + " (" + worker.role + ") "  %></option>
+       <option value="<%= worker._id %>"
+       <%= item.workerId == worker._id.toString() ? 'selected' : '' %>
+    ><%= worker.personalInfo.firstName + " " + worker.personalInfo.lastName + " (" + worker.role + ") "  %></option>
        <% })  %>
     </select>
 
@@ -21,7 +25,9 @@
     <label for="customerSelect" class="text-white bg-dark text-white rounded text-center"> Customer who bought the item: </label>
     <select class="form-select form-select-sm mb-3" aria-label="Multiple select shops" id="customerSelect" name="customerId">
        <% customers.forEach(customer=> {  %>
-       <option value="<%= customer._id %>"><%= customer.name + " " + " (" + customer.phoneNumber + ") "  %></option>
+       <option value="<%= customer._id %>"
+       <%= item.customerId == customer._id.toString() ? 'selected' : '' %>
+    ><%= customer.name + " " + " (" + customer.phoneNumber + ") "  %></option>
        <% })  %>
     </select>
 
@@ -29,7 +35,11 @@
     <label for="workerSelect" class="text-white bg-dark text-white rounded text-center"> Products sold: </label>
     <select class="form-select form-select-sm mb-3" aria-label="Multiple select shops" multiple id="workerSelect" name="products">
        <% products.forEach(product => {  %>
-       <option value="<%= product._id %>"><%= product.productInfo.name + " " + " (" + product.productInfo.quantityInStock + " left ) "  %> 
+       <option value="<%= product._id %>"
+
+       <%= item.products.some(p => p.product._id === product._id ) ? "selected" : "" %>
+
+    ><%= product.productInfo.name + " " + " (" + product.productInfo.quantityInStock + " left ) "  %> 
     </option>
        <% })  %>
 

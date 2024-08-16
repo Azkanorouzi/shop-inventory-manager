@@ -1,1 +1,2 @@
 export const LUCRATIVE_SALES_THRESHOLD = 200;
+
